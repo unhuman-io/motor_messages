@@ -11,10 +11,11 @@ typedef struct {
     float torque;                       // measured torque in Nm
     int32_t motor_encoder;              // motor position in raw counts
     float reserved[3];
-} MotorCommand;
+} MotorStatus;
 
-enum MotorMode {OPEN, DAMPED, CURRENT, POSITION, TORQUE, IMPEDANCE, VELOCITY, 
-    CURRENT_TUNING, POSITION_TUNING, VOLTAGE, PHASE_LOCK, STEPPER_TUNING, RESET=255};
+typedef enum {OPEN, DAMPED, CURRENT, POSITION, TORQUE, IMPEDANCE, VELOCITY, 
+    CURRENT_TUNING, POSITION_TUNING, VOLTAGE, PHASE_LOCK, STEPPER_TUNING, 
+    BOARD_RESET=255} MotorMode;
 
 typedef struct {
     uint32_t host_timestamp;            // Value from host
@@ -24,4 +25,4 @@ typedef struct {
     float velocity_desired;             // motor velocity desired in rad/s
     float torque_desired;               // torque desired Nm
     float reserved;                     // reserved for strange uses
-} MotorStatus;
+} MotorCommand;
