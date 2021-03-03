@@ -15,7 +15,7 @@ typedef struct {
 
 typedef enum {OPEN, DAMPED, CURRENT, POSITION, TORQUE, IMPEDANCE, VELOCITY, 
     CURRENT_TUNING, POSITION_TUNING, VOLTAGE, PHASE_LOCK, STEPPER_TUNING, 
-    BOARD_RESET=255} MotorMode;
+    CRASH=254, BOARD_RESET=255} MotorMode;
 
 typedef struct {
     uint32_t host_timestamp;            // Value from host
