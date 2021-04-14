@@ -17,6 +17,8 @@ typedef enum {OPEN, DAMPED, CURRENT, POSITION, TORQUE, IMPEDANCE, VELOCITY,
     CURRENT_TUNING, POSITION_TUNING, VOLTAGE, PHASE_LOCK, STEPPER_TUNING, 
     CRASH=254, BOARD_RESET=255} MotorMode;
 
+typedef enum {SINE, SQUARE, TRIANGLE, CHIRP} TuningMode;
+
 typedef struct {
     uint32_t host_timestamp;            // Value from host
     uint8_t mode_desired;               // \sa ModeDesired
