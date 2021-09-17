@@ -66,3 +66,5 @@ typedef struct {
         } stepper_velocity;
     };
 } MotorCommand;
+
+#define MAX_API_DATA_SIZE 1000
