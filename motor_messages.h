@@ -26,7 +26,7 @@ typedef struct {
 } MotorError;
 
 typedef struct {
-    uint8_t current_mode;               // returns current mode, should be mode_desired
+    uint8_t mode;                       // returns current mode, should be mode_desired
                                         // unless there is an error
     MotorError error;                   // \sa MotorError
     uint16_t reserved;
@@ -47,7 +47,7 @@ typedef struct {
 
 typedef enum {OPEN, DAMPED, CURRENT, POSITION, TORQUE, IMPEDANCE, VELOCITY, 
     CURRENT_TUNING, POSITION_TUNING, VOLTAGE, PHASE_LOCK, STEPPER_TUNING, 
-    STEPPER_VELOCITY, NO_MODE=252, SLEEP=253,
+    STEPPER_VELOCITY, HARDWARE_BRAKE, NO_MODE=252, SLEEP=253,
     CRASH=254, BOARD_RESET=255} MotorMode;
 
 typedef enum {SINE, SQUARE, TRIANGLE, CHIRP} TuningMode;
