@@ -16,13 +16,18 @@
 // be cleared by a reset. More detailed error information may be available through
 // the text api.
 typedef struct {
-    uint8_t sequence:1;                 // if sequence error detection is on and
-                                        // there is a discrepancy in host_timestamp_received
-    uint8_t system:1;                   // Over/undervoltage
-    uint8_t motor:1;                    // Overcurrent, phase problem
-    uint8_t controller:1;               // Tracking error if enabled
-    uint8_t sensor:1;                   // Encoder error
-    uint8_t reserved:3;
+    union {
+        struct {
+            uint8_t sequence:1;                 // if sequence error detection is on and
+                                                // there is a discrepancy in host_timestamp_received
+            uint8_t system:1;                   // Over/undervoltage
+            uint8_t motor:1;                    // Overcurrent, phase problem
+            uint8_t controller:1;               // Tracking error if enabled
+            uint8_t sensor:1;                   // Encoder error
+            uint8_t reserved:3;
+        };
+        uint8_t all;
+    };
 } MotorError;
 
 typedef struct {
