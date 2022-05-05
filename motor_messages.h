@@ -3,7 +3,7 @@
 // The MOTOR_MESSAGES minor number will increment for non breaking changes (i.e. 
 // only adding fields or context) and will increment the major number if there is 
 // a struct reorganization
-#define MOTOR_MESSAGES_VERSION  "1.2"
+#define MOTOR_MESSAGES_VERSION  "2.0"
 
 // The structs below are used for direct communication with the STM32 microcontroller
 // The STM32 is 32 bit little-endian so the packing of these structs will follow.
@@ -52,11 +52,21 @@ typedef struct {
 } MotorStatus;
 
 typedef enum {OPEN, DAMPED, CURRENT, POSITION, TORQUE, IMPEDANCE, VELOCITY, 
+    STATE, 
     CURRENT_TUNING, POSITION_TUNING, VOLTAGE, PHASE_LOCK, STEPPER_TUNING, 
     STEPPER_VELOCITY, HARDWARE_BRAKE, FAULT=251, NO_MODE=252, SLEEP=253,
     CRASH=254, BOARD_RESET=255} MotorMode;
 
 typedef enum {SINE, SQUARE, TRIANGLE, CHIRP} TuningMode;
+
+typedef struct {
+    float current_desired;              // see above
+    float position_desired;
+    float velocity_desired;
+    float torque_desired;
+    float torque_dot_desired;           
+    float kp, kd, kt, ks;               // position, velocity, torque, and torque_dot gains
+} StateControllerCommand;
 
 typedef struct {
     uint32_t host_timestamp;            // Value from host
@@ -69,13 +79,17 @@ typedef struct {
             float position_desired;             // motor position desired in rad
             float velocity_desired;             // motor velocity desired in rad/s
             float torque_desired;               // torque desired Nm
+            float torque_dot_desired;           // torque_dot desired Nm/s
             float reserved;                     // reserved for strange uses
+            float reserved2[3];                 // also reserved
         };
+
+        // state controller
+        StateControllerCommand state;
         
         // debug/tuning modes
         struct {
             float voltage_desired;              // motor voltage V line-line
-            float reserved[4];
         } voltage;                              // Close loop voltage mode, may overcurrent easily
         struct {
             uint32_t mode;                      // \sa TuningMode
@@ -101,10 +115,9 @@ typedef struct {
         struct {
             float voltage;                      // motor voltage V line-line
             float velocity;                     // motor velocity rad/s
-            float reserved[3];
         } stepper_velocity;                     // open loop mode, may skip in position and overcurrent easily
     };
-                                            // 28 bytes
+                                            // 11*4 = 44 bytes
 } MotorCommand;
 
 // USB is the current default physical communication protocol. MotorCommand and 
