@@ -1,9 +1,10 @@
 #pragma once
 
+#include <assert.h>
 // The MOTOR_MESSAGES minor number will increment for non breaking changes (i.e. 
 // only adding fields or context) and will increment the major number if there is 
 // a struct reorganization
-#define MOTOR_MESSAGES_VERSION  "2.0"
+#define MOTOR_MESSAGES_VERSION  "3.0"
 
 // The structs below are used for direct communication with the STM32 microcontroller
 // The STM32 is 32 bit little-endian so the packing of these structs will follow.
@@ -20,14 +21,24 @@ typedef struct {
         struct {
             uint8_t sequence:1;                 // if sequence error detection is on and
                                                 // there is a discrepancy in host_timestamp_received
-            uint8_t system:1;                   // Over/undervoltage
-            uint8_t motor:1;                    // Overcurrent, phase problem
-            uint8_t controller:1;               // Tracking error if enabled
-            uint8_t sensor:1;                   // Encoder error
+            uint8_t bus_voltage_low:1;
+            uint8_t bus_voltage_high:1;
+            uint8_t bus_current:1;
+            uint8_t microcontroller_temperature:1;
+            uint8_t board_temperature:1;
+            uint8_t motor_temperature:1;
+            uint8_t driver_fault:1;
+            uint8_t motor_overcurent:1;
+            uint8_t motor_phase_open:1;
+            uint8_t motor_encoder:1;
+            uint8_t motor_encoder_limit:1;
+            uint8_t output_encoder:1;
+            uint8_t output_encoder_limit:1;
+            uint8_t torque_sensor:1;
+            uint8_t controller_tracking:1;
             uint8_t host_fault:1;               // The host requested the system to fault
-            uint8_t reserved:2;
         };
-        uint8_t all;
+        uint32_t all;
     };
 } MotorError;
 
@@ -35,8 +46,9 @@ typedef struct {
     uint8_t mode;                       // returns current mode, should be mode_desired
                                         // unless there is an error
     MotorError error;                   // \sa MotorError
-    uint16_t reserved;
 } MotorFlags;
+
+static_assert(sizeof(MotorFlags) == sizeof(uint32_t)*2);
 
 typedef struct {
     uint32_t mcu_timestamp;             // timestamp in microcontroller clock cycles
@@ -48,7 +60,7 @@ typedef struct {
     int32_t motor_encoder;              // motor position in raw counts
     float reserved[3];
     MotorFlags flags;                   // \sa MotorFlags
-                                        // 44 bytes
+                                        // 48 bytes
 } MotorStatus;
 
 typedef enum {OPEN, DAMPED, CURRENT, POSITION, TORQUE, IMPEDANCE, VELOCITY, 
