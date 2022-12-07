@@ -6,6 +6,8 @@
 // a struct reorganization
 #define MOTOR_MESSAGES_VERSION  "3.0"
 
+namespace obot {
+
 // The structs below are used for direct communication with the STM32 microcontroller
 // The STM32 is 32 bit little-endian so the packing of these structs will follow.
 // 32 bit alignment by default will cause 32 bit fields to be aligned leaving 
@@ -131,6 +133,8 @@ typedef struct {
     };
                                             // 11*4 = 44 bytes
 } MotorCommand;
+
+}  // namespace obot
 
 // USB is the current default physical communication protocol. MotorCommand and 
 // MotorStatus structs are sent on one endpoint as defined below. A separate debugging
