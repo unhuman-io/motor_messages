@@ -49,6 +49,12 @@ typedef struct {
 typedef struct {
     uint8_t mode;                       // returns current mode, should be mode_desired
                                         // unless there is an error
+    union {
+        uint8_t byte;
+        struct {
+            uint8_t gpio:1;             // a gpio input
+        };
+    } misc;
     MotorError error;                   // \sa MotorError
 } MotorFlags;
 
@@ -87,7 +93,12 @@ typedef struct {
 typedef struct {
     uint32_t host_timestamp;            // Value from host
     uint8_t mode_desired;               // \sa ModeDesired
-    uint8_t mode_reserved;
+    union {
+        uint8_t byte;
+        struct {
+            uint8_t gpio:1;              // a gpio signal
+        };
+    } misc;
     union {
         // main control modes
         struct {                                
