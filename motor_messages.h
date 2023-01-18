@@ -4,7 +4,7 @@
 // The MOTOR_MESSAGES minor number will increment for non breaking changes (i.e. 
 // only adding fields or context) and will increment the major number if there is 
 // a struct reorganization
-#define MOTOR_MESSAGES_VERSION  "3.0"
+#define MOTOR_MESSAGES_VERSION  "3.1"
 
 #ifdef __cplusplus
 namespace obot {
@@ -41,6 +41,7 @@ typedef struct {
             uint8_t torque_sensor:1;
             uint8_t controller_tracking:1;
             uint8_t host_fault:1;               // The host requested the system to fault
+            uint8_t driver_not_enabled:1;
         };
         uint32_t all;
     };
@@ -76,7 +77,9 @@ typedef struct {
 typedef enum {OPEN, DAMPED, CURRENT, POSITION, TORQUE, IMPEDANCE, VELOCITY, 
     STATE, 
     CURRENT_TUNING, POSITION_TUNING, VOLTAGE, PHASE_LOCK, STEPPER_TUNING, 
-    STEPPER_VELOCITY, HARDWARE_BRAKE, CLEAR_FAULTS=250, FAULT=251, NO_MODE=252,
+    STEPPER_VELOCITY, HARDWARE_BRAKE,
+    DRIVER_ENABLE=248, DRIVER_DISABLE=249, 
+    CLEAR_FAULTS=250, FAULT=251, NO_MODE=252,
     SLEEP=253, CRASH=254, BOARD_RESET=255} MotorMode;
 
 typedef enum {SINE, SQUARE, TRIANGLE, CHIRP} TuningMode;
