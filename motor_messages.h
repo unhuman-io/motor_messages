@@ -47,6 +47,9 @@ typedef struct {
     };
 } MotorError;
 
+#define ERROR_MASK_ALL  0xFFFFFFFF
+#define ERROR_MASK_NONE 0x80000000
+
 typedef struct {
     uint8_t mode;                       // returns current mode, should be mode_desired
                                         // unless there is an error
