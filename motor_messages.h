@@ -4,7 +4,7 @@
 // The MOTOR_MESSAGES minor number will increment for non breaking changes (i.e. 
 // only adding fields or context) and will increment the major number if there is 
 // a struct reorganization
-#define MOTOR_MESSAGES_VERSION  "3.1"
+#define MOTOR_MESSAGES_VERSION  "3.2"
 
 #ifdef __cplusplus
 namespace obot {
@@ -32,6 +32,7 @@ typedef struct {
             uint8_t board_temperature:1;
             uint8_t motor_temperature:1;
             uint8_t driver_fault:1;
+
             uint8_t motor_overcurent:1;
             uint8_t motor_phase_open:1;
             uint8_t motor_encoder:1;
@@ -40,8 +41,13 @@ typedef struct {
             uint8_t output_encoder_limit:1;
             uint8_t torque_sensor:1;
             uint8_t controller_tracking:1;
+
             uint8_t host_fault:1;               // The host requested the system to fault
             uint8_t driver_not_enabled:1;
+            uint8_t reserved1:6;
+
+            uint8_t reserved2:7;
+            uint8_t fault:1;
         };
         uint32_t all;
     };
