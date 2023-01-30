@@ -4,7 +4,7 @@
 // The MOTOR_MESSAGES minor number will increment for non breaking changes (i.e. 
 // only adding fields or context) and will increment the major number if there is 
 // a struct reorganization
-#define MOTOR_MESSAGES_VERSION  "3.2"
+#define MOTOR_MESSAGES_VERSION  "3.3"
 
 #ifdef __cplusplus
 namespace obot {
@@ -70,6 +70,14 @@ typedef struct {
 
 static_assert(sizeof(MotorFlags) == sizeof(uint32_t)*2);
 
+typedef enum {FLOAT=0, UINT32_T=1, INT32_T=2} RoundRobinType;
+
+typedef struct {
+    uint8_t index;                  // Index to custom data field
+    uint8_t type;                   // \sa RoundRobinType
+    float data;                     // type defined by round_robin_type, default float
+} RoundRobinData;
+
 typedef struct {
     uint32_t mcu_timestamp;             // timestamp in microcontroller clock cycles
     uint32_t host_timestamp_received;   // return of host_timestamp from ReceiveData
@@ -78,7 +86,8 @@ typedef struct {
     float iq;                           // Measured motor current in A line-line
     float torque;                       // measured torque in Nm
     int32_t motor_encoder;              // motor position in raw counts
-    float reserved[3];
+    RoundRobinData rr_data;             // an index, type, and value that cycles in round robin
+    float reserved;
     MotorFlags flags;                   // \sa MotorFlags
                                         // 48 bytes
 } MotorStatus;
