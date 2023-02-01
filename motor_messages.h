@@ -53,8 +53,31 @@ typedef struct {
     };
 } MotorError;
 
-#define ERROR_MASK_ALL  0xFFFFFFFF
-#define ERROR_MASK_NONE 0x80000000
+#define ERROR_MASK_SEQUENCE                     (1<<0)
+#define ERROR_MASK_BUS_VOLTAGE_LOW              (1<<1)
+#define ERROR_MASK_BUS_VOLTAGE_HIGH             (1<<2)
+#define ERROR_MASK_BUS_CURRENT                  (1<<3)
+#define ERROR_MASK_MICROCONTROLLER_TEMPERATURE  (1<<4)
+#define ERROR_MASK_BOARD_TEMPERATURE            (1<<5)
+#define ERROR_MASK_MOTOR_TEMPERATURE            (1<<6)
+#define ERROR_MASK_DRIVER_FAULT                 (1<<7)
+
+#define ERROR_MASK_MOTOR_OVERCURRENT            (1<<8)
+#define ERROR_MASK_MOTOR_PHASE_OPEN             (1<<9)
+#define ERROR_MASK_MOTOR_ENCODER                (1<<10)
+#define ERROR_MASK_MOTOR_ENCODER_LIMIT          (1<<11)
+#define ERROR_MASK_OUTPUT_ENCODER               (1<<12)
+#define ERROR_MASK_OUTPUT_ENCODER_LIMIT         (1<<13)
+#define ERROR_MASK_TORQUE_SENSOR                (1<<14)
+#define ERROR_MASK_CONTROLLER_TRACKING          (1<<15)
+
+#define ERROR_MASK_HOST_FAULT                   (1<<16)
+#define ERROR_MASK_DRIVER_NOT_ENABLED           (1<<17)
+
+#define ERROR_MASK_FAULT                        (1<<31)
+
+#define ERROR_MASK_ALL                          0xFFFFFFFF
+#define ERROR_MASK_NONE                         0x80000000
 
 typedef struct {
     uint8_t mode;                       // returns current mode, should be mode_desired
