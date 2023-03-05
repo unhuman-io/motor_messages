@@ -33,7 +33,7 @@ typedef struct {
             uint8_t motor_temperature:1;
             uint8_t driver_fault:1;
 
-            uint8_t motor_overcurent:1;
+            uint8_t motor_overcurrent:1;
             uint8_t motor_phase_open:1;
             uint8_t motor_encoder:1;
             uint8_t motor_encoder_limit:1;
