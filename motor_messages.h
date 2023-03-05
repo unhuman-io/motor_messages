@@ -134,6 +134,40 @@ typedef struct {
     float kp, kd, kt, ks;               // position, velocity, torque, and torque_dot gains
 } StateControllerCommand;
 
+// Debug and tuning command options
+typedef struct {
+    float voltage_desired;              // motor voltage V line-line
+} VoltageCommand;                       // Closed loop voltage mode, may overcurrent easily
+
+typedef struct {
+    uint32_t mode;                      // \sa TuningMode
+    float amplitude;                    // amplitude rad
+    float reserved;
+    float bias;                         // bias rad
+    float frequency;                    // frequency Hz
+} PositionTuningCommand;
+
+typedef struct {
+    float amplitude;                    // amplitude A
+    uint32_t mode;                      // \sa TuningMode
+    float reserved;
+    float bias;                         // bias A
+    float frequency;                    // frequency Hz
+} CurrentTuningCommand;
+
+typedef struct {
+    uint32_t mode;                      // \sa TuningMode
+    float amplitude;                    // amplitude in motor radians
+    float kv;                           // motor kv Vs/rad
+    float bias;                         // bias rad
+    float frequency;                    // frequency Hz
+} StepperTuningCommand;                       // open loop mode, may skip in position and overcurrent easily
+
+typedef struct {
+    float voltage;                      // motor voltage V line-line
+    float velocity;                     // motor velocity rad/s
+} StepperVelocityCommand;                     // open loop mode, may skip in position and overcurrent easily
+
 typedef struct {
     uint32_t host_timestamp;            // Value from host
     uint8_t mode_desired;               // \sa ModeDesired
@@ -159,34 +193,11 @@ typedef struct {
         StateControllerCommand state;
         
         // debug/tuning modes
-        struct {
-            float voltage_desired;              // motor voltage V line-line
-        } voltage;                              // Close loop voltage mode, may overcurrent easily
-        struct {
-            uint32_t mode;                      // \sa TuningMode
-            float amplitude;                    // amplitude rad
-            float reserved;
-            float bias;                         // bias rad
-            float frequency;                    // frequency Hz
-        } position_tuning;
-        struct {
-            float amplitude;                    // amplitude A
-            uint32_t mode;                      // \sa TuningMode
-            float reserved;
-            float bias;                         // bias A
-            float frequency;                    // frequency Hz
-        } current_tuning;
-        struct {
-            uint32_t mode;                      // \sa TuningMode
-            float amplitude;                    // amplitude in motor radians
-            float kv;                           // motor kv Vs/rad
-            float bias;                         // bias rad
-            float frequency;                    // frequency Hz
-        } stepper_tuning;                       // open loop mode, may skip in position and overcurrent easily
-        struct {
-            float voltage;                      // motor voltage V line-line
-            float velocity;                     // motor velocity rad/s
-        } stepper_velocity;                     // open loop mode, may skip in position and overcurrent easily
+        VoltageCommand voltage;
+        PositionTuningCommand position_tuning;
+        CurrentTuningCommand current_tuning;
+        StepperTuningCommand stepper_tuning;
+        StepperVelocityCommand stepper_velocity;
     };
                                             // 11*4 = 44 bytes
 } MotorCommand;
