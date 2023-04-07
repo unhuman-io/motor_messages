@@ -112,6 +112,7 @@ typedef struct {
 #define VOLTAGE_3V3_INDEX           7
 #define VOLTAGE_5V_INDEX            8
 #define CURRENT_5V_INDEX            9
+#define USB_ERROR_COUNT_INDEX       10
 
 
 typedef struct {
