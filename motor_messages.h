@@ -101,6 +101,19 @@ typedef struct {
     float data;                     // type defined by round_robin_type, default float
 } RoundRobinData;
 
+// Default indexes for RoundRobinData
+#define MOTOR_TEMPERATURE_INDEX     0
+#define BOARD_TEMPERATURE_INDEX     1
+#define BUS_VOLTAGE_INDEX           2
+#define BUS_CURRENT_INDEX           3
+#define MOTOR_POWER_INDEX           4
+#define AMBIENT_TEMPERATURE_INDEX   5
+#define MOSFET_TEMPERATURE_INDEX    6
+#define VOLTAGE_3V3_INDEX           7
+#define VOLTAGE_5V_INDEX            8
+#define CURRENT_5V_INDEX            9
+
+
 typedef struct {
     uint32_t mcu_timestamp;             // timestamp in microcontroller clock cycles
     uint32_t host_timestamp_received;   // return of host_timestamp from ReceiveData
