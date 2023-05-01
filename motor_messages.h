@@ -4,7 +4,7 @@
 // The MOTOR_MESSAGES minor number will increment for non breaking changes (i.e. 
 // only adding fields or context) and will increment the major number if there is 
 // a struct reorganization
-#define MOTOR_MESSAGES_VERSION  "3.5"
+#define MOTOR_MESSAGES_VERSION  "4.0"
 
 #ifdef __cplusplus
 namespace obot {
@@ -44,7 +44,8 @@ typedef struct {
 
             uint8_t host_fault:1;               // The host requested the system to fault
             uint8_t driver_not_enabled:1;
-            uint8_t reserved1:6;
+            uint8_t encoder_disagreement:1;
+            uint8_t reserved1:5;
 
             uint8_t reserved2:7;
             uint8_t fault:1;
@@ -73,6 +74,7 @@ typedef struct {
 
 #define ERROR_MASK_HOST_FAULT                   (1<<16)
 #define ERROR_MASK_DRIVER_NOT_ENABLED           (1<<17)
+#define ERROR_MASK_ENCODER_DISAGREEMENT         (1<<18)
 
 #define ERROR_MASK_FAULT                        (1<<31)
 
@@ -151,6 +153,7 @@ typedef struct {
     float torque_desired;
     float torque_dot_desired;           
     float kp, kd, kt, ks;               // position, velocity, torque, and torque_dot gains
+    float ff_tau;                       // feedforward torque to current (current_desired += ff_tau * torque_desired)
 } StateControllerCommand;
 
 // Debug and tuning command options
@@ -218,7 +221,7 @@ typedef struct {
         StepperTuningCommand stepper_tuning;
         StepperVelocityCommand stepper_velocity;
     };
-                                            // 11*4 = 44 bytes
+                                            // 13*4 = 52 bytes
 } MotorCommand;
 
 #ifdef __cplusplus
