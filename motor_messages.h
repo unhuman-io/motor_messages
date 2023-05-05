@@ -153,7 +153,6 @@ typedef struct {
     float torque_desired;
     float torque_dot_desired;           
     float kp, kd, kt, ks;               // position, velocity, torque, and torque_dot gains
-    float ff_tau;                       // feedforward torque to current (current_desired += ff_tau * torque_desired)
 } StateControllerCommand;
 
 // Debug and tuning command options
