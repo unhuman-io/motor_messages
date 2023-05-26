@@ -4,7 +4,7 @@
 // The MOTOR_MESSAGES minor number will increment for non breaking changes (i.e. 
 // only adding fields or context) and will increment the major number if there is 
 // a struct reorganization
-#define MOTOR_MESSAGES_VERSION  "4.1"
+#define MOTOR_MESSAGES_VERSION  "4.2"
 
 #ifdef __cplusplus
 namespace obot {
@@ -120,7 +120,14 @@ typedef struct {
 #define MOTOR_ENCODER_CRC_INDEX     13
 #define TORQUE_SENSOR_CRC_INDEX     14
 #define AMBIENT_TEMPERATURE_2_INDEX 15
-#define ROUND_ROBIN_LENGTH          20
+#define AMBIENT_TEMPERATURE_3_INDEX 16
+#define AMBIENT_TEMPERATURE_4_INDEX 17
+#define OUTPUT_ENCODER_ERROR_INDEX  18
+#define MOTOR_ENCODER_ERROR_INDEX   19
+#define TORQUE_SENSOR_ERROR_INDEX   20
+#define JOINT_ENCODER_CRC_INDEX     21
+#define JOINT_ENCODER_ERROR_INDEX   22
+#define ROUND_ROBIN_LENGTH          25
 
 
 typedef struct {
