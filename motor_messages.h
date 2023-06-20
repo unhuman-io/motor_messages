@@ -4,7 +4,7 @@
 // The MOTOR_MESSAGES minor number will increment for non breaking changes (i.e. 
 // only adding fields or context) and will increment the major number if there is 
 // a struct reorganization
-#define MOTOR_MESSAGES_VERSION  "4.2"
+#define MOTOR_MESSAGES_VERSION  "5.0"
 
 #ifdef __cplusplus
 namespace obot {
@@ -139,9 +139,11 @@ typedef struct {
     float torque;                       // measured torque in Nm
     int32_t motor_encoder;              // motor position in raw counts
     RoundRobinData rr_data;             // an index, type, and value that cycles in round robin
+    float motor_velocity;               // motor velocity in rad/s
+    float joint_velocity;               // joint velocity in rad/s
     float reserved;
     MotorFlags flags;                   // \sa MotorFlags
-                                        // 48 bytes
+                                        // 56 bytes
 } MotorStatus;
 
 typedef enum {OPEN, DAMPED, CURRENT, POSITION, TORQUE, IMPEDANCE, VELOCITY, 
