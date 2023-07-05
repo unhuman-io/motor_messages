@@ -4,7 +4,7 @@
 // The MOTOR_MESSAGES minor number will increment for non breaking changes (i.e. 
 // only adding fields or context) and will increment the major number if there is 
 // a struct reorganization
-#define MOTOR_MESSAGES_VERSION  "5.1"
+#define MOTOR_MESSAGES_VERSION  "6.0"
 
 #ifdef __cplusplus
 namespace obot {
@@ -44,8 +44,9 @@ typedef struct {
 
             uint8_t host_fault:1;               // The host requested the system to fault
             uint8_t driver_not_enabled:1;
-            uint8_t encoder_disagreement:1;
-            uint8_t reserved1:5;
+            uint8_t encoder_disagreement:1;         // motor encoder vs output encoder disagreement
+            uint8_t torque_sensor_disagreement:1;   // torque sensor vs current disagreement
+            uint8_t reserved1:4;
 
             uint8_t reserved2:7;
             uint8_t fault:1;
@@ -75,6 +76,7 @@ typedef struct {
 #define ERROR_MASK_HOST_FAULT                   (1<<16)
 #define ERROR_MASK_DRIVER_NOT_ENABLED           (1<<17)
 #define ERROR_MASK_ENCODER_DISAGREEMENT         (1<<18)
+#define ERROR_MASK_TORQUE_SENSOR_DISAGREEMENT   (1<<19)
 
 #define ERROR_MASK_FAULT                        (1<<31)
 
@@ -143,8 +145,9 @@ typedef struct {
     float motor_velocity;               // motor velocity in rad/s
     float joint_velocity;               // joint velocity in rad/s
     float reserved;
+    float iq_desired;                   // desired input to the current controller
     MotorFlags flags;                   // \sa MotorFlags
-                                        // 56 bytes
+                                        // 60 bytes
 } MotorStatus;
 
 typedef enum {OPEN, DAMPED, CURRENT, POSITION, TORQUE, IMPEDANCE, VELOCITY, 
