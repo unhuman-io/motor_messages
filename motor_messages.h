@@ -102,7 +102,11 @@ typedef enum {FLOAT=0, UINT32_T=1, INT32_T=2} RoundRobinType;
 typedef struct {
     uint8_t index;                  // Index to custom data field
     uint8_t type;                   // \sa RoundRobinType
-    float data;                     // type defined by round_robin_type, default float
+    union {
+        float data;                 // type defined by round_robin_type, default float
+        uint32_t data_u32;          // uint32 alternative
+        int32_t data_i32;           // int32 alternative
+    };
 } RoundRobinData;
 
 // Default indexes for RoundRobinData
