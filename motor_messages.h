@@ -4,7 +4,7 @@
 // The MOTOR_MESSAGES minor number will increment for non breaking changes (i.e. 
 // only adding fields or context) and will increment the major number if there is 
 // a struct reorganization
-#define MOTOR_MESSAGES_VERSION  "6.1"
+#define MOTOR_MESSAGES_VERSION  "6.2"
 
 #ifdef __cplusplus
 namespace obot {
@@ -158,7 +158,7 @@ typedef struct {
 typedef enum {OPEN, DAMPED, CURRENT, POSITION, TORQUE, IMPEDANCE, VELOCITY, 
     STATE, 
     CURRENT_TUNING, POSITION_TUNING, VOLTAGE, PHASE_LOCK, STEPPER_TUNING, 
-    STEPPER_VELOCITY, HARDWARE_BRAKE, JOINT_POSITION, FIND_LIMITS,
+    STEPPER_VELOCITY, HARDWARE_BRAKE, JOINT_POSITION, FIND_LIMITS, ADMITTANCE,
     DRIVER_ENABLE=248, DRIVER_DISABLE=249, 
     CLEAR_FAULTS=250, FAULT=251, NO_MODE=252,
     SLEEP=253, CRASH=254, BOARD_RESET=255} MotorMode;
