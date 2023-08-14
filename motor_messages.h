@@ -4,7 +4,7 @@
 // The MOTOR_MESSAGES minor number will increment for non breaking changes (i.e. 
 // only adding fields or context) and will increment the major number if there is 
 // a struct reorganization
-#define MOTOR_MESSAGES_VERSION  "6.2"
+#define MOTOR_MESSAGES_VERSION  "6.3"
 
 #ifdef __cplusplus
 namespace obot {
@@ -48,7 +48,8 @@ typedef struct {
             uint8_t torque_sensor_disagreement:1;   // torque sensor vs current disagreement
             uint8_t reserved1:4;
 
-            uint8_t reserved2:7;
+            uint8_t reserved2:6;
+            uint8_t motor_soft_limit:1:        // a warning only. Soft limit mode holds velocity
             uint8_t fault:1;
         };
         uint32_t all;
@@ -78,9 +79,10 @@ typedef struct {
 #define ERROR_MASK_ENCODER_DISAGREEMENT         (1<<18)
 #define ERROR_MASK_TORQUE_SENSOR_DISAGREEMENT   (1<<19)
 
+#define ERROR_MASK_MOTOR_SOFT_LIMIT             (1<<30)
 #define ERROR_MASK_FAULT                        (1<<31)
 
-#define ERROR_MASK_ALL                          0xFFFFFFFF
+#define ERROR_MASK_ALL                          0x8FFFFFFF
 #define ERROR_MASK_NONE                         0x80000000
 
 typedef struct {
