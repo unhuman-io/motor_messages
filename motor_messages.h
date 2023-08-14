@@ -49,7 +49,7 @@ typedef struct {
             uint8_t reserved1:4;
 
             uint8_t reserved2:6;
-            uint8_t motor_soft_limit:1:        // a warning only. Soft limit mode holds velocity
+            uint8_t motor_soft_limit:1;        // a warning only. Soft limit mode holds velocity
             uint8_t fault:1;
         };
         uint32_t all;
