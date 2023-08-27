@@ -4,7 +4,7 @@
 // The MOTOR_MESSAGES minor number will increment for non breaking changes (i.e. 
 // only adding fields or context) and will increment the major number if there is 
 // a struct reorganization
-#define MOTOR_MESSAGES_VERSION  "6.5"
+#define MOTOR_MESSAGES_VERSION  "6.6"
 
 #ifdef __cplusplus
 namespace obot {
@@ -201,17 +201,22 @@ typedef struct {
     float frequency;                    // frequency Hz
 } CurrentTuningCommand;
 
+typedef enum {STEPPER_CURRENT, STEPPER_VOLTAGE} StepperMode;
+
 typedef struct {
     uint32_t mode;                      // \sa TuningMode
     float amplitude;                    // amplitude in motor radians
     float kv;                           // motor kv Vs/rad
     float bias;                         // bias rad
     float frequency;                    // frequency Hz
+    StepperMode stepper_mode;           // \sa StepperMode
 } StepperTuningCommand;                       // open loop mode, may skip in position and overcurrent easily
 
 typedef struct {
     float voltage;                      // motor voltage V line-line
     float velocity;                     // motor velocity rad/s
+    float current;                      // motor current in A
+    StepperMode stepper_mode;           // \sa StepperMode
 } StepperVelocityCommand;                     // open loop mode, may skip in position and overcurrent easily
 
 typedef struct {
