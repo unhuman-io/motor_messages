@@ -85,6 +85,15 @@ typedef struct {
 #define ERROR_MASK_ALL                          0x8FFFFFFF
 #define ERROR_MASK_NONE                         0x80000000
 
+#define ERROR_BIT_STRINGS   {"sequence", "bus_voltage_low", "bus_voltage_high", "bus_current", \
+  "microcontroller_temperature", "board_temperature", "motor_temperature", "driver_fault", \
+  "motor_overcurrent", "motor_phase_open", "motor_encoder", "motor_encoder_limit", \
+  "output_encoder", "output_encoder_limit", "torque_sensor", "controller_tracking", \
+  "host_fault", "driver_not_enabled", "encoder_disagreement", "torque_sensor_disagreement", \
+  "", "", "", "", \
+  "", "", "", "", \
+  "", "", "motor_soft_limit", "fault"}
+
 typedef struct {
     uint8_t mode;                       // returns current mode, should be mode_desired
                                         // unless there is an error
