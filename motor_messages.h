@@ -4,7 +4,7 @@
 // The MOTOR_MESSAGES minor number will increment for non breaking changes (i.e. 
 // only adding fields or context) and will increment the major number if there is 
 // a struct reorganization
-#define MOTOR_MESSAGES_VERSION  "6.6"
+#define MOTOR_MESSAGES_VERSION  "6.7"
 
 #ifdef __cplusplus
 namespace obot {
@@ -174,6 +174,7 @@ typedef enum {OPEN, DAMPED, CURRENT, POSITION, TORQUE, IMPEDANCE, VELOCITY,
     STATE, 
     CURRENT_TUNING, POSITION_TUNING, VOLTAGE, PHASE_LOCK, STEPPER_TUNING, 
     STEPPER_VELOCITY, HARDWARE_BRAKE, JOINT_POSITION, FIND_LIMITS, ADMITTANCE,
+    TUNING,
     DRIVER_ENABLE=248, DRIVER_DISABLE=249, 
     CLEAR_FAULTS=250, FAULT=251, NO_MODE=252,
     SLEEP=253, CRASH=254, BOARD_RESET=255} MotorMode;
@@ -229,6 +230,14 @@ typedef struct {
 } StepperVelocityCommand;                     // open loop mode, may skip in position and overcurrent easily
 
 typedef struct {
+    uint32_t mode;                      // Supports POSITION, VELOCITY, TORQUE
+    uint32_t tuning_mode;               // \sa TuningMode
+    float amplitude;                    // amplitude generic
+    float bias;                         // bias generic
+    float frequency;                   // frequency Hz
+} TuningCommand;
+
+typedef struct {
     uint32_t host_timestamp;            // Value from host
     uint8_t mode_desired;               // \sa ModeDesired
     union {
@@ -258,6 +267,7 @@ typedef struct {
         CurrentTuningCommand current_tuning;
         StepperTuningCommand stepper_tuning;
         StepperVelocityCommand stepper_velocity;
+        TuningCommand tuning_command;
     };
                                             // 13*4 = 52 bytes
 } MotorCommand;
