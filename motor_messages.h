@@ -272,6 +272,20 @@ typedef struct {
                                             // 13*4 = 52 bytes
 } MotorCommand;
 
+typedef struct {
+    uint32_t timestamp;
+    float measured_motor_position;
+    float command_iq;
+    float measured_iq;
+    float measured_ia;
+    float measured_ib;
+    float measured_ic;
+    float command_va;
+    float command_vb;
+    float command_vc;
+    float vbus;
+} FastLog; // A debug struct subject to change
+
 #ifdef __cplusplus
 }  // namespace obot
 #endif
