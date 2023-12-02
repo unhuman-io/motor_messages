@@ -179,6 +179,15 @@ typedef enum {OPEN, DAMPED, CURRENT, POSITION, TORQUE, IMPEDANCE, VELOCITY,
     CLEAR_FAULTS=250, FAULT=251, NO_MODE=252,
     SLEEP=253, CRASH=254, BOARD_RESET=255} MotorMode;
 
+#define MOTOR_MODE_COLORS {"azure", "orange", "green", "blue", "salmon", "chartreuse", "blue", \
+    "magenta", \
+    "springgreen", "blue", "violet", "yellow", "cyan", \
+    "cyan", "orange", "blue", "blue", "salmon", \
+    "white"}
+#define MOTOR_MODE_UPPER_COLORS {"azure", "white", \
+    "azure", "red", "red", \
+    "white", "red", "red"}
+
 typedef enum {SINE, SQUARE, TRIANGLE, CHIRP} TuningMode;
 
 typedef struct {
