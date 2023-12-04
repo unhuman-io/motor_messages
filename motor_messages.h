@@ -4,7 +4,7 @@
 // The MOTOR_MESSAGES minor number will increment for non breaking changes (i.e. 
 // only adding fields or context) and will increment the major number if there is 
 // a struct reorganization
-#define MOTOR_MESSAGES_VERSION  "6.7"
+#define MOTOR_MESSAGES_VERSION  "6.8"
 
 #ifdef __cplusplus
 namespace obot {
@@ -48,8 +48,13 @@ typedef struct {
             uint8_t torque_sensor_disagreement:1;   // torque sensor vs current disagreement
             uint8_t reserved1:4;
 
-            uint8_t reserved2:6;
+            // warning flags only
+            uint8_t reserved2:4;
+            uint8_t motor_current_limit:1;
+            uint8_t motor_voltage_limit:1;
             uint8_t motor_soft_limit:1;        // a warning only. Soft limit mode holds velocity
+
+            // overall fault bit
             uint8_t fault:1;
         };
         uint32_t all;
@@ -79,6 +84,8 @@ typedef struct {
 #define ERROR_MASK_ENCODER_DISAGREEMENT         (1<<18)
 #define ERROR_MASK_TORQUE_SENSOR_DISAGREEMENT   (1<<19)
 
+#define ERROR_MASK_MOTOR_CURRENT_LIMIT          (1<<28)
+#define ERROR_MASK_MOTOR_VOLTAGE_LIMIT          (1<<29)
 #define ERROR_MASK_MOTOR_SOFT_LIMIT             (1<<30)
 #define ERROR_MASK_FAULT                        (1<<31)
 
@@ -92,7 +99,7 @@ typedef struct {
   "host_fault", "driver_not_enabled", "encoder_disagreement", "torque_sensor_disagreement", \
   "", "", "", "", \
   "", "", "", "", \
-  "", "", "motor_soft_limit", "fault"}
+  "motor_current_limit", "motor_voltage_limit", "motor_soft_limit", "fault"}
 
 typedef struct {
     uint8_t mode;                       // returns current mode, should be mode_desired
