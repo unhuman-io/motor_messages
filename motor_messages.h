@@ -97,7 +97,7 @@ typedef struct {
 #define ERROR_MASK_MOTOR_SOFT_LIMIT             (1<<30)
 #define ERROR_MASK_FAULT                        (1<<31)
 
-#define ERROR_MASK_ALL                          0x8FFFFFFF
+#define ERROR_MASK_ALL                          0x80FFFFFF
 #define ERROR_MASK_NONE                         0x80000000
 
 #define ERROR_BIT_STRINGS   {"sequence", "bus_voltage_low", "bus_voltage_high", "bus_current", \
