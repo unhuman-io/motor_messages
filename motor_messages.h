@@ -179,10 +179,10 @@ typedef struct {
     RoundRobinData rr_data;             // an index, type, and value that cycles in round robin
     float motor_velocity;               // motor velocity in rad/s
     float joint_velocity;               // joint velocity in rad/s
-    float reserved;
     float iq_desired;                   // desired input to the current controller
     MotorFlags flags;                   // \sa MotorFlags
                                         // 60 bytes
+    float reserved;
 } MotorStatus;
 
 typedef enum {OPEN, DAMPED, CURRENT, POSITION, TORQUE, IMPEDANCE, VELOCITY, 
