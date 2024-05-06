@@ -178,9 +178,10 @@ typedef struct {
     MotorFlags flags;                   // \sa MotorFlags
     RoundRobinData rr_data;             // an index, type, and value that cycles in round robin
     float reserved;
+    float iq_desired;                   // desired input to the current controller
     float motor_velocity;               // motor velocity in rad/s
     float joint_velocity;               // joint velocity in rad/s
-    float iq_desired;                   // desired input to the current controller                            
+
     int32_t motor_encoder;              // motor position in raw counts
     // 60 bytes
 } MotorStatus;
@@ -195,7 +196,8 @@ typedef struct {
     MotorFlags flags;
     RoundRobinData rr_data;
     float joint_position2;
-    // 44 bytes
+    float iq_desired;
+    // 48 bytes
 } MotorStatusLite;
 
 
