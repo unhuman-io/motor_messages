@@ -4,7 +4,7 @@
 // The MOTOR_MESSAGES minor number will increment for non breaking changes (i.e. 
 // only adding fields or context) and will increment the major number if there is 
 // a struct reorganization
-#define MOTOR_MESSAGES_VERSION  "7.0"
+#define MOTOR_MESSAGES_VERSION  "7.1"
 
 #ifdef __cplusplus
 namespace obot {
@@ -269,6 +269,16 @@ typedef struct {
     StepperMode stepper_mode;           // \sa StepperMode
 } StepperVelocityCommand;                     // open loop mode, may skip in position and overcurrent easily
 
+typedef enum{FIND_LIMITS_OUTPUT, FIND_LIMITS_MOTOR} FindLimitsMode;
+typedef enum{FIND_LIMITS_NEGATIVE, FIND_LIMITS_POSITIVE, FIND_LIMITS_BOTH, FIND_LIMITS_BOTH_AUTO} FindLimitsOptions;
+typedef struct {
+    float current_desired;              // motor current
+    float position_desired;             // Position either in motor or output radians
+    float velocity_desired;             // Velocity either in motor or output rad/s
+    uint8_t mode;                       // \sa FindLimitsMode
+    uint8_t options;                    // \sa FindLimitsOptions
+} FindLimitsCommand;
+
 typedef struct {
     uint32_t mode;                      // Supports POSITION, VELOCITY, TORQUE
     uint32_t tuning_mode;               // \sa TuningMode
@@ -307,6 +317,7 @@ typedef struct {
         CurrentTuningCommand current_tuning;
         StepperTuningCommand stepper_tuning;
         StepperVelocityCommand stepper_velocity;
+        FindLimitsCommand find_limits;
         TuningCommand tuning_command;
     };
                                             // 13*4 = 52 bytes
