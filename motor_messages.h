@@ -87,7 +87,7 @@ typedef struct {
 #define ERROR_MASK_DRIVER_NOT_ENABLED           (1<<17)
 #define ERROR_MASK_ENCODER_DISAGREEMENT         (1<<18)
 #define ERROR_MASK_TORQUE_SENSOR_DISAGREEMENT   (1<<19)
-#define ERROR_MASK_INIT_FAILURE                 (1<<19)
+#define ERROR_MASK_INIT_FAILURE                 (1<<20)
 
 #define ERROR_MASK_MOTOR_ENCODER_WARNING        (1<<25)
 #define ERROR_MASK_OUTPUT_ENCODER_WARNING       (1<<26)
