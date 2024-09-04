@@ -4,7 +4,7 @@
 // The MOTOR_MESSAGES minor number will increment for non breaking changes (i.e. 
 // only adding fields or context) and will increment the major number if there is 
 // a struct reorganization
-#define MOTOR_MESSAGES_VERSION  "7.0"
+#define MOTOR_MESSAGES_VERSION  "7.1"
 
 #ifdef __cplusplus
 namespace obot {
@@ -123,7 +123,7 @@ typedef struct {
 
 static_assert(sizeof(MotorFlags) == sizeof(uint32_t)*2);
 
-typedef enum {FLOAT=0, UINT32_T=1, INT32_T=2} RoundRobinType;
+typedef enum {FLOAT=0, UINT32_T=1, INT32_T=2, FLAGS32_T=3} RoundRobinType;
 
 typedef struct {
     uint8_t index;                  // Index to custom data field
