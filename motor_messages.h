@@ -4,7 +4,7 @@
 // The MOTOR_MESSAGES minor number will increment for non breaking changes (i.e. 
 // only adding fields or context) and will increment the major number if there is 
 // a struct reorganization
-#define MOTOR_MESSAGES_VERSION  "7.0"
+#define MOTOR_MESSAGES_VERSION  "7.1"
 
 #ifdef __cplusplus
 namespace obot {
@@ -341,3 +341,22 @@ typedef struct {
 #define USB_ENDPOINT_TEXT_API   1
 #define MAX_API_DATA_SIZE 1000      // refers to the TextAPI which is a separate
                                     // communication channel, both TX and RX
+
+typedef enum {TIMEOUT_REQUEST=1} CommunicationControlPacketType;
+
+typedef struct {
+    uint32_t timeout_us;                // timeout in microseconds for next api response
+} TimeoutRequest;
+
+typedef struct {
+    uint8_t control_packet_id;          // 0 identifies a control packet vs a text packet
+    uint8_t type;                       // \sa CommunicationControlPacketType
+    union {
+        TimeoutRequest timeout_request; // \sa TimeoutRequest
+    };
+} APIControlPacket;
+
+typedef union {
+    char text[MAX_API_DATA_SIZE];       // text api data
+    APIControlPacket control_packet;    // \sa APIControlPacket
+} APIResponse;
