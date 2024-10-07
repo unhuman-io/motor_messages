@@ -354,11 +354,10 @@ typedef struct {
 
 typedef struct {
     uint16_t total_length;              // total length of the packet in bytes
-    uint16_t packet_number;             // packet number in the sequence
-    uint8_t data[MAX_API_DATA_SIZE-8];  // data per packet up to MAX_API_DATA_SIZE - header size
-                                        // but may be broken into many small packets. The individual
-                                        // packet length is determined by the protocol outside of
-                                        // this struct.
+    uint16_t packet_number;             // packet number in the sequence starting at 1
+    // followed by data per packet up to MAX_API_DATA_SIZE - sizeof(APIControlPacket) (8)
+    // in the same packet but may be broken into many small packets. The individual
+    // packet length is determined by the protocol outside of this struct.
 } LongPacket;
 
 typedef struct {
