@@ -342,6 +342,7 @@ typedef struct {
 #define MAX_API_DATA_SIZE 1000      // refers to the TextAPI which is a separate
                                     // communication channel, both TX and RX
 #define MAX_API_LONG_DATA_SIZE  4000
+#define MAX_CAN_DATA_SIZE       64
 
 // Note, parsing of the APIResponse is dependent on the protocol. Some protocols 
 // may require a preparsing at the driver or hardware level in order to determine 
