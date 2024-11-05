@@ -4,7 +4,7 @@
 // The MOTOR_MESSAGES minor number will increment for non breaking changes (i.e. 
 // only adding fields or context) and will increment the major number if there is 
 // a struct reorganization
-#define MOTOR_MESSAGES_VERSION  "7.1"
+#define MOTOR_MESSAGES_VERSION  "7.2"
 
 #ifdef __cplusplus
 namespace obot {
@@ -51,7 +51,7 @@ typedef struct {
             uint8_t reserved1:2;
 
             // warning flags only
-            uint8_t reserved2:1;
+            uint8_t imminent_derate_warning:1;
             uint8_t motor_encoder_warning:1;
             uint8_t output_encoder_warning:1;
             uint8_t torque_sensor_warning:1;
@@ -91,6 +91,7 @@ typedef struct {
 #define ERROR_MASK_INIT_FAILURE                 (1<<20)
 #define ERROR_MASK_INVALID_COMMAND              (1<<21)
 
+#define ERROR_MASK_IMMINENT_DERATE_WARNING      (1<<24)
 #define ERROR_MASK_MOTOR_ENCODER_WARNING        (1<<25)
 #define ERROR_MASK_OUTPUT_ENCODER_WARNING       (1<<26)
 #define ERROR_MASK_TORQUE_SENSOR_WARNING        (1<<27)
@@ -108,7 +109,7 @@ typedef struct {
   "output_encoder", "output_encoder_limit", "torque_sensor", "controller_tracking", \
   "host_fault", "driver_not_enabled", "encoder_disagreement", "torque_sensor_disagreement", \
   "init_failure", "invalid_command", "", "", \
-  "", "motor_encoder_warning", "output_encoder_warning", "torque_sensor_warning", \
+  "imminent_derate_warning", "motor_encoder_warning", "output_encoder_warning", "torque_sensor_warning", \
   "motor_current_limit", "motor_voltage_limit", "motor_soft_limit", "fault"}
 
 typedef struct {
