@@ -4,7 +4,7 @@
 // The MOTOR_MESSAGES minor number will increment for non breaking changes (i.e. 
 // only adding fields or context) and will increment the major number if there is 
 // a struct reorganization
-#define MOTOR_MESSAGES_VERSION  "7.2"
+#define MOTOR_MESSAGES_VERSION  "7.3"
 
 #ifdef __cplusplus
 namespace obot {
@@ -344,3 +344,37 @@ typedef struct {
 #define USB_ENDPOINT_TEXT_API   1
 #define MAX_API_DATA_SIZE 1000      // refers to the TextAPI which is a separate
                                     // communication channel, both TX and RX
+#define MAX_API_LONG_DATA_SIZE  4000
+#define MAX_CAN_DATA_SIZE       64
+
+// Note, parsing of the APIResponse is dependent on the protocol. Some protocols 
+// may require a preparsing at the driver or hardware level in order to determine 
+// appropriate reactions (e.g. internal timeouts).
+
+typedef enum {TIMEOUT_REQUEST=1, LONG_PACKET=2} CommunicationControlPacketType;
+
+typedef struct {
+    uint32_t timeout_us;                // timeout in microseconds for next api response
+} TimeoutRequest;
+
+typedef struct {
+    uint16_t total_length;              // total length of the packet in bytes
+    uint16_t packet_number;             // packet number in the sequence starting at 1
+    // followed by data per packet up to MAX_API_DATA_SIZE - sizeof(APIControlPacket) (8)
+    // in the same packet but may be broken into many small packets. The individual
+    // packet length is determined by the protocol outside of this struct.
+} LongPacket;
+
+typedef struct {
+    uint8_t control_packet_id;          // 0 identifies a control packet vs a text packet
+    uint8_t type;                       // \sa CommunicationControlPacketType
+    union {
+        TimeoutRequest timeout_request; // \sa TimeoutRequest
+        LongPacket long_packet;         // \sa LongPacket
+    };
+} APIControlPacket;
+
+typedef union {
+    char text[MAX_API_DATA_SIZE];       // text api data
+    APIControlPacket control_packet;    // \sa APIControlPacket
+} APIResponse;
