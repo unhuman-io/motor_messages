@@ -4,7 +4,7 @@
 // The MOTOR_MESSAGES minor number will increment for non breaking changes (i.e. 
 // only adding fields or context) and will increment the major number if there is 
 // a struct reorganization
-#define MOTOR_MESSAGES_VERSION  "7.3"
+#define MOTOR_MESSAGES_VERSION  "7.4"
 
 #ifdef __cplusplus
 namespace obot {
@@ -222,7 +222,7 @@ typedef enum {OPEN, DAMPED, CURRENT, POSITION, TORQUE, IMPEDANCE, VELOCITY,
     "azure", "red", "red", \
     "white", "red", "red"}
 
-typedef enum {SINE, SQUARE, TRIANGLE, CHIRP} TuningMode;
+typedef enum {SINE, SQUARE, TRIANGLE, CHIRP, RANDOM} TuningMode;
 
 typedef struct {
     float current_desired;              // \sa MotorCommand
