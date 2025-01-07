@@ -4,7 +4,7 @@
 // The MOTOR_MESSAGES minor number will increment for non breaking changes (i.e. 
 // only adding fields or context) and will increment the major number if there is 
 // a struct reorganization
-#define MOTOR_MESSAGES_VERSION  "7.3"
+#define MOTOR_MESSAGES_VERSION  "7.4"
 
 #ifdef __cplusplus
 namespace obot {
@@ -233,6 +233,16 @@ typedef struct {
     float kp, kd, kt, ks;               // position, velocity, torque, and torque_dot gains
 } StateControllerCommand;
 
+typedef struct {
+    float current_desired;              // motor current desired in A line-line
+    float position_desired;             // motor position desired in rad
+    float velocity_desired;             // motor velocity desired in rad/s
+    float torque_desired;               // torque desired Nm
+    float torque_dot_desired;           // torque_dot desired Nm/s
+    float stiffness;                    // Nm/rad, defaults to impedance controller kp if 0
+    float damping;                      // Nm/(rad/s), defaults to impedance controller kd if 0
+} ImpedanceCommand;
+
 // Debug and tuning command options
 typedef struct {
     float voltage_desired;              // motor voltage V line-line
@@ -301,9 +311,9 @@ typedef struct {
             float reserved2[3];                 // also reserved
         };
 
-        // state controller
+        // Controllers with specific commands
         StateControllerCommand state;
-        
+        ImpedanceCommand impedance;
         // debug/tuning modes
         VoltageCommand voltage;
         PositionTuningCommand position_tuning;
