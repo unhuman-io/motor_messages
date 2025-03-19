@@ -4,7 +4,7 @@
 // The MOTOR_MESSAGES minor number will increment for non breaking changes (i.e. 
 // only adding fields or context) and will increment the major number if there is 
 // a struct reorganization
-#define MOTOR_MESSAGES_VERSION  "7.6"
+#define MOTOR_MESSAGES_VERSION  "7.7"
 
 #ifdef __cplusplus
 namespace obot {
@@ -170,7 +170,23 @@ typedef struct {
 #define JOINT_ENCODER_WARNING_INDEX 28
 #define ROUND_ROBIN_LENGTH          30
 
+#define MOTOR_STATUS_REGULAR struct { \
+    uint32_t mcu_timestamp;             /* timestamp in microcontroller clock cycles */\
+    uint32_t host_timestamp_received;   /* return of host_timestamp from ReceiveData */\
+    float motor_position;               /* motor position in radians */\
+    float joint_position;               /* joint position in radians */\
+    float iq;                           /* Measured motor current in A line-line */\
+    float torque;                       /* measured torque in Nm */\
+    MotorFlags flags;                   /* \sa MotorFlags */\
+    RoundRobinData rr_data;             /* an index, type, and value that cycles in round robin */\
+    float reserved;                     \
+    float iq_desired;                   /* desired input to the current controller */\
+    float motor_velocity;               /* motor velocity in rad/s */\
+    float joint_velocity;               /* joint velocity in rad/s */\
+    int32_t motor_encoder;              /* motor position in raw counts */\
+}
 
+typedef MOTOR_STATUS_REGULAR MotorStatusRegular;
 typedef struct {
     uint32_t mcu_timestamp;
     uint32_t host_timestamp_received;
@@ -200,21 +216,7 @@ typedef struct {
 } MotorStatusLarge;
 
 typedef union {
-    struct {
-        uint32_t mcu_timestamp;             // timestamp in microcontroller clock cycles
-        uint32_t host_timestamp_received;   // return of host_timestamp from ReceiveData
-        float motor_position;               // motor position in radians
-        float joint_position;               // joint position in radians
-        float iq;                           // Measured motor current in A line-line
-        float torque;                       // measured torque in Nm
-        MotorFlags flags;                   // \sa MotorFlags
-        RoundRobinData rr_data;             // an index, type, and value that cycles in round robin
-        float reserved;
-        float iq_desired;                   // desired input to the current controller
-        float motor_velocity;               // motor velocity in rad/s
-        float joint_velocity;               // joint velocity in rad/s
-        int32_t motor_encoder;              // motor position in raw counts
-    }; // anonymous struct
+    MOTOR_STATUS_REGULAR;
     MotorStatusLite lite;
     MotorStatusLarge large;
 } MotorStatus;
