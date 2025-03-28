@@ -4,7 +4,7 @@
 // The MOTOR_MESSAGES minor number will increment for non breaking changes (i.e. 
 // only adding fields or context) and will increment the major number if there is 
 // a struct reorganization
-#define MOTOR_MESSAGES_VERSION  "7.7"
+#define MOTOR_MESSAGES_VERSION  "7.8"
 
 #ifdef __cplusplus
 namespace obot {
@@ -131,6 +131,8 @@ typedef enum {FLOAT=0, UINT32_T=1, INT32_T=2} RoundRobinType;
 typedef struct {
     uint8_t index;                  // Index to custom data field
     uint8_t type;                   // \sa RoundRobinType
+    uint8_t subindex;               // subindex to custom data field
+    uint8_t reserved;
     union {
         float data;                 // type defined by round_robin_type, default float
         uint32_t data_u32;          // uint32 alternative
@@ -139,36 +141,38 @@ typedef struct {
 } RoundRobinData;
 
 // Default indexes for RoundRobinData
-#define MOTOR_TEMPERATURE_INDEX     0
-#define BOARD_TEMPERATURE_INDEX     1
-#define BUS_VOLTAGE_INDEX           2
-#define BUS_CURRENT_INDEX           3
-#define MOTOR_POWER_INDEX           4
-#define AMBIENT_TEMPERATURE_INDEX   5
-#define MOSFET_TEMPERATURE_INDEX    6
-#define VOLTAGE_3V3_INDEX           7
-#define VOLTAGE_5V_INDEX            8
-#define CURRENT_5V_INDEX            9
-#define USB_ERROR_COUNT_INDEX       10
-#define MOSFET2_TEMPERATURE_INDEX   11
-#define OUTPUT_ENCODER_CRC_INDEX    12
-#define MOTOR_ENCODER_CRC_INDEX     13
-#define TORQUE_SENSOR_CRC_INDEX     14
-#define AMBIENT_TEMPERATURE_2_INDEX 15
-#define AMBIENT_TEMPERATURE_3_INDEX 16
-#define AMBIENT_TEMPERATURE_4_INDEX 17
-#define OUTPUT_ENCODER_ERROR_INDEX  18
-#define MOTOR_ENCODER_ERROR_INDEX   19
-#define TORQUE_SENSOR_ERROR_INDEX   20
-#define JOINT_ENCODER_CRC_INDEX     21
-#define JOINT_ENCODER_ERROR_INDEX   22
-#define MICROCONTROLLER_TEMPERATURE_INDEX 23
-#define UPTIME_INDEX                24
-#define MOTOR_TEMPERATURE_ESTIMATE_INDEX  25
-#define MOTOR_ENCODER_WARNING_INDEX 26
-#define OUTPUT_ENCODER_WARNING_INDEX      27
-#define JOINT_ENCODER_WARNING_INDEX 28
-#define ROUND_ROBIN_LENGTH          30
+#define TEMPERATURE_RR_INDEX         0
+#define   MICOCONTROLLER_TEMPERATURE_RR_SUBINDEX  0
+#define   BOARD_TEMPERATURE_RR_SUBINDEX           1
+#define   MOTOR_TEMPERATURE_RR_SUBINDEX           2
+#define   MOTOR_TEMPERATURE_ESTIMATE_RR_SUBINDEX  3
+#define   MOSFET_TEMPERATURE_RR_SUBINDEX          4
+#define   PREDEFINED_TEMPERATURE_RR_LENGTH        5
+#define BUS_AND_LOGIC_RR_INDEX       1
+#define   VOLTAGE_3V3_RR_SUBINDEX                 0
+#define   BUS_CURRENT_ESTIMATE_RR_SUBINDEX        1
+#define   MOTOR_POWER_RR_SUBINDEX                 2
+#define   LOGIC_RR_LENGTH                         3
+#define BUS_VOLTAGE_RR_INDEX         2
+#define   BUS_VOLTAGE_RR_SUBINDEX                 0
+#define   BUS_VOLTAGE_RR_LENGTH                   1
+#define FLAGS_RR_INDEX               3
+#define   FLAGS_RR_LENGTH                         0
+#define STATUS_RR_INDEX              4
+#define   UPTIME_RR_SUBINDEX                      0
+#define   TOTAL_UPTIME_RR_SUBINDEX                1
+#define   MOTOR_ENCODER_CRC_SUBINDEX              2
+#define   OUTPUT_ENCODER_CRC_SUBINDEX             3
+#define   TORQUE_SENSOR_CRC_SUBINDEX              4
+#define   MOTOR_ENCODER_ERROR_SUBINDEX            5
+#define   OUTPUT_ENCODER_ERROR_SUBINDEX           6
+#define   TORQUE_SENSOR_ERROR_SUBINDEX            7
+#define   MOTOR_ENCODER_WARNING_SUBINDEX          8
+#define   OUTPUT_ENCODER_WARNING_SUBINDEX         9
+#define   JOINT_ENCODER_WARNING_SUBINDEX          10
+#define   STATUS_RR_LENGTH                        11
+#define RR_INDEX_LENGTH              5
+#define ROUND_ROBIN_LENGTH           10
 
 #define MOTOR_STATUS_REGULAR struct { \
     uint32_t mcu_timestamp;             /* timestamp in microcontroller clock cycles */\
