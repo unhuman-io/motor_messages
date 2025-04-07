@@ -4,7 +4,7 @@
 // The MOTOR_MESSAGES minor number will increment for non breaking changes (i.e. 
 // only adding fields or context) and will increment the major number if there is 
 // a struct reorganization
-#define MOTOR_MESSAGES_VERSION  "7.7"
+#define MOTOR_MESSAGES_VERSION  "7.8"
 
 #ifdef __cplusplus
 namespace obot {
@@ -353,8 +353,21 @@ typedef struct {
     float command_va;
     float command_vb;
     float command_vc;
-    float vbus;
+    float vbus; // 44 bytes
 } FastLog; // A debug struct subject to change
+
+typedef struct {
+    FastLog fast_loop;
+    float torque;
+    float output_position;
+    float output_velocity_filtered;
+    float motor_position;
+    float motor_velocity_filtered;
+    float motor_temperature_estimate;
+    MotorMode mode;
+    MotorError error;
+    float power; // 80 bytes
+} MainLog; // A debug struct subject to change
 
 #ifdef __cplusplus
 }  // namespace obot
