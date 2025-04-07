@@ -369,6 +369,9 @@ typedef struct {
     float power; // 80 bytes
 } MainLog; // A debug struct subject to change
 
+#define MAIN_LOG_LENGTH 25
+#define FAST_LOG_LENGTH 100
+
 #ifdef __cplusplus
 }  // namespace obot
 #endif
