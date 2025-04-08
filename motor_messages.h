@@ -346,15 +346,27 @@ typedef struct {
     uint32_t timestamp;
     float electrical_position;
     float command_iq;
+    float command_id;
     float measured_iq;
+    float measured_id;
+    float command_vq;
+    float command_vd;
+    float vbus;
+    float ibus;
+} FastLog; // A debug struct subject to change, 40 bytes
+
+typedef struct {
+    uint32_t timestamp;
+    float electrical_position;
     float measured_ia;
     float measured_ib;
     float measured_ic;
     float command_va;
     float command_vb;
     float command_vc;
-    float vbus; // 44 bytes
-} FastLog; // A debug struct subject to change
+    uint32_t motor_encoder_flags;
+    uint32_t mode;
+} FastLog2; // 40 bytess
 
 typedef struct {
     FastLog fast_loop;
@@ -366,7 +378,8 @@ typedef struct {
     float motor_temperature_estimate;
     MotorMode mode;
     MotorError error;
-    float power; // 80 bytes
+    float power; 
+    uint32_t reserved; // 80 bytes
 } MainLog; // A debug struct subject to change
 
 #define MAIN_LOG_LENGTH 25
