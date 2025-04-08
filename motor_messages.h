@@ -344,7 +344,7 @@ typedef struct {
 
 typedef struct {
     uint32_t timestamp;
-    float measured_motor_position;
+    float electrical_position;
     float command_iq;
     float measured_iq;
     float measured_ia;
