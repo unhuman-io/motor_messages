@@ -4,7 +4,7 @@
 // The MOTOR_MESSAGES minor number will increment for non breaking changes (i.e. 
 // only adding fields or context) and will increment the major number if there is 
 // a struct reorganization
-#define MOTOR_MESSAGES_VERSION  "7.8"
+#define MOTOR_MESSAGES_VERSION  "7.9"
 
 #ifdef __cplusplus
 namespace obot {
@@ -434,3 +434,12 @@ typedef union {
     char text[MAX_API_DATA_SIZE];       // text api data
     APIControlPacket control_packet;    // \sa APIControlPacket
 } APIResponse;
+
+typedef enum {ENUM_MODE_APP, ENUM_MODE_BOOTLOADER} EnumMode;
+
+typedef struct {
+    uint8_t mode;                       // \sa EnumMode
+    uint8_t messages_version[3];        // major, minor, subminor
+    uint8_t version[4];                 // TBD
+    uint8_t serial_number[6];           // stm32 formatted 
+} EnumResponse;                         // 14 bytes
