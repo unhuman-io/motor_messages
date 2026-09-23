@@ -4,7 +4,7 @@
 // The MOTOR_MESSAGES minor number will increment for non breaking changes (i.e. 
 // only adding fields or context) and will increment the major number if there is 
 // a struct reorganization
-#define MOTOR_MESSAGES_VERSION  "7.8"
+#define MOTOR_MESSAGES_VERSION  "7.9"
 
 #ifdef __cplusplus
 namespace obot {
@@ -225,7 +225,7 @@ typedef enum {OPEN, DAMPED, CURRENT, POSITION, TORQUE, IMPEDANCE, VELOCITY,
     STATE, 
     CURRENT_TUNING, POSITION_TUNING, VOLTAGE, PHASE_LOCK, STEPPER_TUNING, 
     STEPPER_VELOCITY, HARDWARE_BRAKE, JOINT_POSITION, FIND_LIMITS, ADMITTANCE,
-    TUNING,
+    TUNING, MOTOR_TORQUE,
     DRIVER_ENABLE=248, DRIVER_DISABLE=249, 
     CLEAR_FAULTS=250, FAULT=251, NO_MODE=252,
     SLEEP=253, CRASH=254, BOARD_RESET=255} MotorMode;
@@ -234,7 +234,7 @@ typedef enum {OPEN, DAMPED, CURRENT, POSITION, TORQUE, IMPEDANCE, VELOCITY,
     "magenta", \
     "springgreen", "blue", "violet", "yellow", "cyan", \
     "cyan", "orange", "blue", "blue", "salmon", \
-    "white"}
+    "white", "springgreen"}
 #define MOTOR_MODE_UPPER_COLORS {"azure", "white", \
     "azure", "red", "red", \
     "white", "red", "red"}
@@ -264,6 +264,16 @@ typedef struct {
 typedef struct {
     float voltage_desired;              // motor voltage V line-line
 } VoltageCommand;                       // Closed loop voltage mode, may overcurrent easily
+
+// Debug and tuning command options
+typedef struct {
+    float iq, id;                       // motor current A peak
+} CurrentCommand;                       // Closed loop voltage mode, may overcurrent easily
+
+typedef struct {
+    float reserved[3];
+    float motor_torque;                 // motor torque Nm
+} MotorTorqueCommand;
 
 typedef struct {
     uint32_t mode;                      // \sa TuningMode
@@ -332,6 +342,8 @@ typedef struct {
         StateControllerCommand state;
         ImpedanceCommand impedance;
         // debug/tuning modes
+        MotorTorqueCommand motor_torque;
+        CurrentCommand current;
         VoltageCommand voltage;
         PositionTuningCommand position_tuning;
         CurrentTuningCommand current_tuning;
