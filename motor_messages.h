@@ -397,10 +397,6 @@ typedef struct {
 #define MAIN_LOG_LENGTH 25
 #define FAST_LOG_LENGTH 100
 
-#ifdef __cplusplus
-}  // namespace obot
-#endif
-
 // USB is the current default physical communication protocol. MotorCommand and 
 // MotorStatus structs are sent on one endpoint as defined below. A separate debugging
 // and other communication channel called the text_api is available on on another
@@ -446,3 +442,19 @@ typedef union {
     char text[MAX_API_DATA_SIZE];       // text api data
     APIControlPacket control_packet;    // \sa APIControlPacket
 } APIResponse;
+
+typedef struct {
+    uint8_t messages_version[2];
+    uint8_t serial_number[6];
+    uint8_t version[4];
+    uint8_t name[20];
+    uint8_t config[10];
+    uint8_t board_name[9];
+    uint8_t board_rev;
+    uint16_t board_num;
+} EnumResponse;
+
+#ifdef __cplusplus
+static_assert(sizeof(EnumResponse) <= 64, "EnumResponse should be less than or equal to 64 bytes");
+}  // namespace obot
+#endif
