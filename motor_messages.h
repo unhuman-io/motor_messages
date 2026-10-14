@@ -4,7 +4,12 @@
 // The MOTOR_MESSAGES minor number will increment for non breaking changes (i.e. 
 // only adding fields or context) and will increment the major number if there is 
 // a struct reorganization
-#define MOTOR_MESSAGES_VERSION  "7.9"
+#define MOTOR_MESSAGES_VERSION_MAJOR 7
+#define MOTOR_MESSAGES_VERSION_MINOR 10
+#define MOTOR_MESSAGES_STR_HELPER(x) #x
+#define MOTOR_MESSAGES_STR(x) MOTOR_MESSAGES_STR_HELPER(x)
+#define MOTOR_MESSAGES_VERSION MOTOR_MESSAGES_STR(MOTOR_MESSAGES_VERSION_MAJOR) "." MOTOR_MESSAGES_STR(MOTOR_MESSAGES_VERSION_MINOR)
+
 
 #ifdef __cplusplus
 namespace obot {
