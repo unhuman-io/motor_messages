@@ -4,7 +4,12 @@
 // The MOTOR_MESSAGES minor number will increment for non breaking changes (i.e. 
 // only adding fields or context) and will increment the major number if there is 
 // a struct reorganization
-#define MOTOR_MESSAGES_VERSION  "7.9"
+#define MOTOR_MESSAGES_VERSION_MAJOR 7
+#define MOTOR_MESSAGES_VERSION_MINOR 10
+#define MOTOR_MESSAGES_STR_HELPER(x) #x
+#define MOTOR_MESSAGES_STR(x) MOTOR_MESSAGES_STR_HELPER(x)
+#define MOTOR_MESSAGES_VERSION MOTOR_MESSAGES_STR(MOTOR_MESSAGES_VERSION_MAJOR) "." MOTOR_MESSAGES_STR(MOTOR_MESSAGES_VERSION_MINOR)
+
 
 #ifdef __cplusplus
 namespace obot {
@@ -397,7 +402,27 @@ typedef struct {
 #define MAIN_LOG_LENGTH 25
 #define FAST_LOG_LENGTH 100
 
+// The reply to an obot enum request, which is what a host needs to list a node
+// and to pick the node it talks to. It is one frame of the smallest size that
+// holds it on can fd, and a node answers it without the text api. Fields a
+// node does not know stay zero; an empty reply is a node from before this
+// struct, which a host asks through the text api instead.
+typedef struct {
+    uint8_t messages_version[2];        // MOTOR_MESSAGES_VERSION major, minor
+    uint8_t serial_number[6];           // a host prints the bytes in this order, as 12 hex digits
+    uint8_t version[2];                 // firmware version major, minor
+    uint16_t version_commits;           // commits since that version
+    uint32_t version_hash;              // the 7 digit git hash, \sa ENUM_VERSION_DIRTY
+    char name[20];                      // firmware name. These have no terminator when full
+    char board_name[8];
+    uint8_t board_rev;
+    uint8_t reserved;
+    uint16_t board_num;
+} EnumResponse;
+#define ENUM_VERSION_DIRTY 0x80000000   // version_hash: built from a modified tree
+
 #ifdef __cplusplus
+static_assert(sizeof(EnumResponse) == 48, "EnumResponse is one 48 byte can fd frame");
 }  // namespace obot
 #endif
 
