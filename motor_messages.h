@@ -1,14 +1,14 @@
 #pragma once
 
 #include <assert.h>
-// The MOTOR_MESSAGES minor number will increment for non breaking changes (i.e. 
-// only adding fields or context) and will increment the major number if there is 
+// The MOTOR_MESSAGES minor number will increment for non breaking changes (i.e.
+// only adding fields or context) and will increment the major number if there is
 // a struct reorganization
 #define MOTOR_MESSAGES_VERSION_MAJOR 7
 #define MOTOR_MESSAGES_VERSION_MINOR 10
 #define MOTOR_MESSAGES_STR_HELPER(x) #x
-#define MOTOR_MESSAGES_STR(x) MOTOR_MESSAGES_STR_HELPER(x)
-#define MOTOR_MESSAGES_VERSION MOTOR_MESSAGES_STR(MOTOR_MESSAGES_VERSION_MAJOR) "." MOTOR_MESSAGES_STR(MOTOR_MESSAGES_VERSION_MINOR)
+#define MOTOR_MESSAGES_STR(x)        MOTOR_MESSAGES_STR_HELPER(x)
+#define MOTOR_MESSAGES_VERSION       MOTOR_MESSAGES_STR(MOTOR_MESSAGES_VERSION_MAJOR) "." MOTOR_MESSAGES_STR(MOTOR_MESSAGES_VERSION_MINOR)
 
 
 #ifdef __cplusplus
@@ -17,8 +17,8 @@ namespace obot {
 
 // The structs below are used for direct communication with the STM32 microcontroller
 // The STM32 is 32 bit little-endian so the packing of these structs will follow.
-// 32 bit alignment by default will cause 32 bit fields to be aligned leaving 
-// empty space after 8 or 16 bit fields. Fortunately this packing seems to work 
+// 32 bit alignment by default will cause 32 bit fields to be aligned leaving
+// empty space after 8 or 16 bit fields. Fortunately this packing seems to work
 // natively without additional translahtion on current intel, arm, and esp32 processors.
 
 // Each of the below errors can be individually mapped to either force the mode into
@@ -71,51 +71,51 @@ typedef struct {
     };
 } MotorError;
 
-#define ERROR_MASK_SEQUENCE                     (1<<0)
-#define ERROR_MASK_BUS_VOLTAGE_LOW              (1<<1)
-#define ERROR_MASK_BUS_VOLTAGE_HIGH             (1<<2)
-#define ERROR_MASK_BUS_CURRENT                  (1<<3)
-#define ERROR_MASK_MICROCONTROLLER_TEMPERATURE  (1<<4)
-#define ERROR_MASK_BOARD_TEMPERATURE            (1<<5)
-#define ERROR_MASK_MOTOR_TEMPERATURE            (1<<6)
-#define ERROR_MASK_DRIVER_FAULT                 (1<<7)
+#define ERROR_MASK_SEQUENCE                    (1 << 0)
+#define ERROR_MASK_BUS_VOLTAGE_LOW             (1 << 1)
+#define ERROR_MASK_BUS_VOLTAGE_HIGH            (1 << 2)
+#define ERROR_MASK_BUS_CURRENT                 (1 << 3)
+#define ERROR_MASK_MICROCONTROLLER_TEMPERATURE (1 << 4)
+#define ERROR_MASK_BOARD_TEMPERATURE           (1 << 5)
+#define ERROR_MASK_MOTOR_TEMPERATURE           (1 << 6)
+#define ERROR_MASK_DRIVER_FAULT                (1 << 7)
 
-#define ERROR_MASK_MOTOR_OVERCURRENT            (1<<8)
-#define ERROR_MASK_MOTOR_PHASE_OPEN             (1<<9)
-#define ERROR_MASK_MOTOR_ENCODER                (1<<10)
-#define ERROR_MASK_MOTOR_ENCODER_LIMIT          (1<<11)
-#define ERROR_MASK_OUTPUT_ENCODER               (1<<12)
-#define ERROR_MASK_OUTPUT_ENCODER_LIMIT         (1<<13)
-#define ERROR_MASK_TORQUE_SENSOR                (1<<14)
-#define ERROR_MASK_CONTROLLER_TRACKING          (1<<15)
+#define ERROR_MASK_MOTOR_OVERCURRENT           (1 << 8)
+#define ERROR_MASK_MOTOR_PHASE_OPEN            (1 << 9)
+#define ERROR_MASK_MOTOR_ENCODER               (1 << 10)
+#define ERROR_MASK_MOTOR_ENCODER_LIMIT         (1 << 11)
+#define ERROR_MASK_OUTPUT_ENCODER              (1 << 12)
+#define ERROR_MASK_OUTPUT_ENCODER_LIMIT        (1 << 13)
+#define ERROR_MASK_TORQUE_SENSOR               (1 << 14)
+#define ERROR_MASK_CONTROLLER_TRACKING         (1 << 15)
 
-#define ERROR_MASK_HOST_FAULT                   (1<<16)
-#define ERROR_MASK_DRIVER_NOT_ENABLED           (1<<17)
-#define ERROR_MASK_ENCODER_DISAGREEMENT         (1<<18)
-#define ERROR_MASK_TORQUE_SENSOR_DISAGREEMENT   (1<<19)
-#define ERROR_MASK_INIT_FAILURE                 (1<<20)
-#define ERROR_MASK_INVALID_COMMAND              (1<<21)
+#define ERROR_MASK_HOST_FAULT                  (1 << 16)
+#define ERROR_MASK_DRIVER_NOT_ENABLED          (1 << 17)
+#define ERROR_MASK_ENCODER_DISAGREEMENT        (1 << 18)
+#define ERROR_MASK_TORQUE_SENSOR_DISAGREEMENT  (1 << 19)
+#define ERROR_MASK_INIT_FAILURE                (1 << 20)
+#define ERROR_MASK_INVALID_COMMAND             (1 << 21)
 
-#define ERROR_MASK_IMMINENT_DERATE_WARNING      (1<<24)
-#define ERROR_MASK_MOTOR_ENCODER_WARNING        (1<<25)
-#define ERROR_MASK_OUTPUT_ENCODER_WARNING       (1<<26)
-#define ERROR_MASK_TORQUE_SENSOR_WARNING        (1<<27)
-#define ERROR_MASK_MOTOR_CURRENT_LIMIT          (1<<28)
-#define ERROR_MASK_MOTOR_VOLTAGE_LIMIT          (1<<29)
-#define ERROR_MASK_MOTOR_SOFT_LIMIT             (1<<30)
-#define ERROR_MASK_FAULT                        (1<<31)
+#define ERROR_MASK_IMMINENT_DERATE_WARNING     (1 << 24)
+#define ERROR_MASK_MOTOR_ENCODER_WARNING       (1 << 25)
+#define ERROR_MASK_OUTPUT_ENCODER_WARNING      (1 << 26)
+#define ERROR_MASK_TORQUE_SENSOR_WARNING       (1 << 27)
+#define ERROR_MASK_MOTOR_CURRENT_LIMIT         (1 << 28)
+#define ERROR_MASK_MOTOR_VOLTAGE_LIMIT         (1 << 29)
+#define ERROR_MASK_MOTOR_SOFT_LIMIT            (1 << 30)
+#define ERROR_MASK_FAULT                       (1 << 31)
 
-#define ERROR_MASK_ALL                          0x80FFFFFF
-#define ERROR_MASK_NONE                         0x80000000
+#define ERROR_MASK_ALL                         0x80FFFFFF
+#define ERROR_MASK_NONE                        0x80000000
 
-#define ERROR_BIT_STRINGS   {"sequence", "bus_voltage_low", "bus_voltage_high", "bus_current", \
-  "microcontroller_temperature", "board_temperature", "motor_temperature", "driver_fault", \
-  "motor_overcurrent", "motor_phase_open", "motor_encoder", "motor_encoder_limit", \
-  "output_encoder", "output_encoder_limit", "torque_sensor", "controller_tracking", \
-  "host_fault", "driver_not_enabled", "encoder_disagreement", "torque_sensor_disagreement", \
-  "init_failure", "invalid_command", "", "", \
-  "imminent_derate_warning", "motor_encoder_warning", "output_encoder_warning", "torque_sensor_warning", \
-  "motor_current_limit", "motor_voltage_limit", "motor_soft_limit", "fault"}
+#define ERROR_BIT_STRINGS                      {"sequence", "bus_voltage_low", "bus_voltage_high", "bus_current", \
+                                                "microcontroller_temperature", "board_temperature", "motor_temperature", "driver_fault", \
+                                                "motor_overcurrent", "motor_phase_open", "motor_encoder", "motor_encoder_limit", \
+                                                "output_encoder", "output_encoder_limit", "torque_sensor", "controller_tracking", \
+                                                "host_fault", "driver_not_enabled", "encoder_disagreement", "torque_sensor_disagreement", \
+                                                "init_failure", "invalid_command", "", "", \
+                                                "imminent_derate_warning", "motor_encoder_warning", "output_encoder_warning", "torque_sensor_warning", \
+                                                "motor_current_limit", "motor_voltage_limit", "motor_soft_limit", "fault"}
 
 typedef struct {
     uint8_t mode;                       // returns current mode, should be mode_desired
@@ -129,9 +129,11 @@ typedef struct {
     MotorError error;                   // \sa MotorError
 } MotorFlags;
 
-static_assert(sizeof(MotorFlags) == sizeof(uint32_t)*2);
+static_assert(sizeof(MotorFlags) == sizeof(uint32_t) * 2);
 
-typedef enum {FLOAT=0, UINT32_T=1, INT32_T=2} RoundRobinType;
+typedef enum { FLOAT    = 0,
+               UINT32_T = 1,
+               INT32_T  = 2 } RoundRobinType;
 
 typedef struct {
     uint8_t index;                  // Index to custom data field
@@ -144,52 +146,53 @@ typedef struct {
 } RoundRobinData;
 
 // Default indexes for RoundRobinData
-#define MOTOR_TEMPERATURE_INDEX     0
-#define BOARD_TEMPERATURE_INDEX     1
-#define BUS_VOLTAGE_INDEX           2
-#define BUS_CURRENT_INDEX           3
-#define MOTOR_POWER_INDEX           4
-#define AMBIENT_TEMPERATURE_INDEX   5
-#define MOSFET_TEMPERATURE_INDEX    6
-#define VOLTAGE_3V3_INDEX           7
-#define VOLTAGE_5V_INDEX            8
-#define CURRENT_5V_INDEX            9
-#define USB_ERROR_COUNT_INDEX       10
-#define MOSFET2_TEMPERATURE_INDEX   11
-#define OUTPUT_ENCODER_CRC_INDEX    12
-#define MOTOR_ENCODER_CRC_INDEX     13
-#define TORQUE_SENSOR_CRC_INDEX     14
-#define AMBIENT_TEMPERATURE_2_INDEX 15
-#define AMBIENT_TEMPERATURE_3_INDEX 16
-#define AMBIENT_TEMPERATURE_4_INDEX 17
-#define OUTPUT_ENCODER_ERROR_INDEX  18
-#define MOTOR_ENCODER_ERROR_INDEX   19
-#define TORQUE_SENSOR_ERROR_INDEX   20
-#define JOINT_ENCODER_CRC_INDEX     21
-#define JOINT_ENCODER_ERROR_INDEX   22
+#define MOTOR_TEMPERATURE_INDEX           0
+#define BOARD_TEMPERATURE_INDEX           1
+#define BUS_VOLTAGE_INDEX                 2
+#define BUS_CURRENT_INDEX                 3
+#define MOTOR_POWER_INDEX                 4
+#define AMBIENT_TEMPERATURE_INDEX         5
+#define MOSFET_TEMPERATURE_INDEX          6
+#define VOLTAGE_3V3_INDEX                 7
+#define VOLTAGE_5V_INDEX                  8
+#define CURRENT_5V_INDEX                  9
+#define USB_ERROR_COUNT_INDEX             10
+#define MOSFET2_TEMPERATURE_INDEX         11
+#define OUTPUT_ENCODER_CRC_INDEX          12
+#define MOTOR_ENCODER_CRC_INDEX           13
+#define TORQUE_SENSOR_CRC_INDEX           14
+#define AMBIENT_TEMPERATURE_2_INDEX       15
+#define AMBIENT_TEMPERATURE_3_INDEX       16
+#define AMBIENT_TEMPERATURE_4_INDEX       17
+#define OUTPUT_ENCODER_ERROR_INDEX        18
+#define MOTOR_ENCODER_ERROR_INDEX         19
+#define TORQUE_SENSOR_ERROR_INDEX         20
+#define JOINT_ENCODER_CRC_INDEX           21
+#define JOINT_ENCODER_ERROR_INDEX         22
 #define MICROCONTROLLER_TEMPERATURE_INDEX 23
-#define UPTIME_INDEX                24
+#define UPTIME_INDEX                      24
 #define MOTOR_TEMPERATURE_ESTIMATE_INDEX  25
-#define MOTOR_ENCODER_WARNING_INDEX 26
+#define MOTOR_ENCODER_WARNING_INDEX       26
 #define OUTPUT_ENCODER_WARNING_INDEX      27
-#define JOINT_ENCODER_WARNING_INDEX 28
-#define ROUND_ROBIN_LENGTH          30
+#define JOINT_ENCODER_WARNING_INDEX       28
+#define ROUND_ROBIN_LENGTH                30
 
-#define MOTOR_STATUS_REGULAR struct { \
-    uint32_t mcu_timestamp;             /* timestamp in microcontroller clock cycles */\
-    uint32_t host_timestamp_received;   /* return of host_timestamp from ReceiveData */\
-    float motor_position;               /* motor position in radians */\
-    float joint_position;               /* joint position in radians */\
-    float iq;                           /* Measured motor current in A line-line */\
-    float torque;                       /* measured torque in Nm */\
-    MotorFlags flags;                   /* \sa MotorFlags */\
-    RoundRobinData rr_data;             /* an index, type, and value that cycles in round robin */\
-    float reserved;                     \
-    float iq_desired;                   /* desired input to the current controller */\
-    float motor_velocity;               /* motor velocity in rad/s */\
-    float joint_velocity;               /* joint velocity in rad/s */\
-    int32_t motor_encoder;              /* motor position in raw counts */\
-}
+#define MOTOR_STATUS_REGULAR \
+    struct { \
+        uint32_t mcu_timestamp;             /* timestamp in microcontroller clock cycles */ \
+        uint32_t host_timestamp_received;   /* return of host_timestamp from ReceiveData */ \
+        float motor_position;               /* motor position in radians */ \
+        float joint_position;               /* joint position in radians */ \
+        float iq;                           /* Measured motor current in A line-line */ \
+        float torque;                       /* measured torque in Nm */ \
+        MotorFlags flags;                   /* \sa MotorFlags */ \
+        RoundRobinData rr_data;             /* an index, type, and value that cycles in round robin */ \
+        float reserved; \
+        float iq_desired;                   /* desired input to the current controller */ \
+        float motor_velocity;               /* motor velocity in rad/s */ \
+        float joint_velocity;               /* joint velocity in rad/s */ \
+        int32_t motor_encoder;              /* motor position in raw counts */ \
+    }
 
 typedef MOTOR_STATUS_REGULAR MotorStatusRegular;
 typedef struct {
@@ -226,32 +229,56 @@ typedef union {
     MotorStatusLarge large;
 } MotorStatus;
 
-typedef enum {OPEN, DAMPED, CURRENT, POSITION, TORQUE, IMPEDANCE, VELOCITY, 
-    STATE, 
-    CURRENT_TUNING, POSITION_TUNING, VOLTAGE, PHASE_LOCK, STEPPER_TUNING, 
-    STEPPER_VELOCITY, HARDWARE_BRAKE, JOINT_POSITION, FIND_LIMITS, ADMITTANCE,
-    TUNING, MOTOR_TORQUE,
-    DRIVER_ENABLE=248, DRIVER_DISABLE=249, 
-    CLEAR_FAULTS=250, FAULT=251, NO_MODE=252,
-    SLEEP=253, CRASH=254, BOARD_RESET=255} MotorMode;
+typedef enum { OPEN,
+               DAMPED,
+               CURRENT,
+               POSITION,
+               TORQUE,
+               IMPEDANCE,
+               VELOCITY,
+               STATE,
+               CURRENT_TUNING,
+               POSITION_TUNING,
+               VOLTAGE,
+               PHASE_LOCK,
+               STEPPER_TUNING,
+               STEPPER_VELOCITY,
+               HARDWARE_BRAKE,
+               JOINT_POSITION,
+               FIND_LIMITS,
+               ADMITTANCE,
+               TUNING,
+               MOTOR_TORQUE,
+               DRIVER_ENABLE  = 248,
+               DRIVER_DISABLE = 249,
+               CLEAR_FAULTS   = 250,
+               FAULT          = 251,
+               NO_MODE        = 252,
+               SLEEP          = 253,
+               CRASH          = 254,
+               BOARD_RESET    = 255 } MotorMode;
 
-#define MOTOR_MODE_COLORS {"azure", "orange", "green", "blue", "salmon", "chartreuse", "blue", \
-    "magenta", \
-    "springgreen", "blue", "violet", "yellow", "cyan", \
-    "cyan", "orange", "blue", "blue", "salmon", \
-    "white", "springgreen"}
+#define MOTOR_MODE_COLORS       {"azure", "orange", "green", "blue", "salmon", "chartreuse", "blue", \
+                                 "magenta", \
+                                 "springgreen", "blue", "violet", "yellow", "cyan", \
+                                 "cyan", "orange", "blue", "blue", "salmon", \
+                                 "white", "springgreen"}
 #define MOTOR_MODE_UPPER_COLORS {"azure", "white", \
-    "azure", "red", "red", \
-    "white", "red", "red"}
+                                 "azure", "red", "red", \
+                                 "white", "red", "red"}
 
-typedef enum {SINE, SQUARE, TRIANGLE, CHIRP, RANDOM} TuningMode;
+typedef enum { SINE,
+               SQUARE,
+               TRIANGLE,
+               CHIRP,
+               RANDOM } TuningMode;
 
 typedef struct {
     float current_desired;              // \sa MotorCommand
     float position_desired;
     float velocity_desired;
     float torque_desired;
-    float torque_dot_desired;           
+    float torque_dot_desired;
     float kp, kd, kt, ks;               // position, velocity, torque, and torque_dot gains
 } StateControllerCommand;
 
@@ -296,7 +323,8 @@ typedef struct {
     float frequency;                    // frequency Hz
 } CurrentTuningCommand;
 
-typedef enum {STEPPER_CURRENT, STEPPER_VOLTAGE} StepperMode;
+typedef enum { STEPPER_CURRENT,
+               STEPPER_VOLTAGE } StepperMode;
 
 typedef struct {
     uint32_t mode;                      // \sa TuningMode
@@ -333,7 +361,7 @@ typedef struct {
     } misc;
     union {
         // main control modes
-        struct {                                
+        struct {
             float current_desired;              // motor current desired in A line-line
             float position_desired;             // motor position desired in rad
             float velocity_desired;             // motor velocity desired in rad/s
@@ -356,7 +384,7 @@ typedef struct {
         StepperVelocityCommand stepper_velocity;
         TuningCommand tuning_command;
     };
-                                            // 13*4 = 52 bytes
+    // 13*4 = 52 bytes
 } MotorCommand;
 
 typedef struct {
@@ -395,7 +423,7 @@ typedef struct {
     float motor_temperature_estimate;
     MotorMode mode;
     MotorError error;
-    float power; 
+    float power;
     uint32_t reserved; // 80 bytes
 } MainLog; // A debug struct subject to change
 
@@ -426,25 +454,26 @@ static_assert(sizeof(EnumResponse) == 48, "EnumResponse is one 48 byte can fd fr
 }  // namespace obot
 #endif
 
-// USB is the current default physical communication protocol. MotorCommand and 
+// USB is the current default physical communication protocol. MotorCommand and
 // MotorStatus structs are sent on one endpoint as defined below. A separate debugging
 // and other communication channel called the text_api is available on on another
 // endpoint. The text_api communicates in 8 bit char non-null terminated strings.
-// The length of the string is provided by the USB protocol and has a max length 
-// defined below 
+// The length of the string is provided by the USB protocol and has a max length
+// defined below
 
-#define USB_ENDPOINT_MOTOR      2
-#define USB_ENDPOINT_TEXT_API   1
-#define MAX_API_DATA_SIZE 1000      // refers to the TextAPI which is a separate
+#define USB_ENDPOINT_MOTOR     2
+#define USB_ENDPOINT_TEXT_API  1
+#define MAX_API_DATA_SIZE      1000      // refers to the TextAPI which is a separate
                                     // communication channel, both TX and RX
-#define MAX_API_LONG_DATA_SIZE  4000
-#define MAX_CAN_DATA_SIZE       64
+#define MAX_API_LONG_DATA_SIZE 4000
+#define MAX_CAN_DATA_SIZE      64
 
-// Note, parsing of the APIResponse is dependent on the protocol. Some protocols 
-// may require a preparsing at the driver or hardware level in order to determine 
+// Note, parsing of the APIResponse is dependent on the protocol. Some protocols
+// may require a preparsing at the driver or hardware level in order to determine
 // appropriate reactions (e.g. internal timeouts).
 
-typedef enum {TIMEOUT_REQUEST=1, LONG_PACKET=2} CommunicationControlPacketType;
+typedef enum { TIMEOUT_REQUEST = 1,
+               LONG_PACKET     = 2 } CommunicationControlPacketType;
 
 typedef struct {
     uint32_t timeout_us;                // timeout in microseconds for next api response
